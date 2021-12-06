@@ -24,7 +24,7 @@
 .modal {
   border-radius: 5px;
   background-color: #db8876;
-  width: 50%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,6 +73,16 @@ form input {
   height: 68px;
   border: none;
   border-radius: 5px;
+  font-size: 2em;
+}
+
+form textarea {
+  width: 100%;
+  height: 170px;
+  border: none;
+  border-radius: 5px;
+  resize: none;
+  font-size: 2em;
 }
 
 .contenue {

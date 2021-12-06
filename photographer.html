@@ -27,27 +27,29 @@
           <h2>Contactez-moi</h2>
           <img src="assets/icons/close.svg" onclick="closeModal()" />
         </header>
-        <form>
+        <form action="" method="post">
           <div>
-            <label>Prénom</label>
-            <input />
+            <label for="prenom">Prénom</label>
+            <input type="text" name="prenom" id="prenom" />
+          </div>
+          <div>
+            <label for="nom">Nom</label>
+            <input type="text" name="nom" id="nom" />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" />
+          </div>
+          <div>
+            <label for="msg">Votre message</label>
+            <textarea type="text" name="msg" id="msg"></textarea>
           </div>
           <button class="contact_button">Envoyer</button>
         </form>
       </div>
     </div>
-    <div id="contenue_id" class="contenue">
-      <div class="filtre">
-        <label for="order_by">Trier par</label>
-        <select name="order_by" id="order_by">
-          <option value="popularité">Popularité</option>
-          <option value="date">Date</option>
-          <option value="titre">Titre</option>
-        </select>
-        <div id="photo" class="photo"></div>
-      </div>
-    </div>
-    <script src="/scripts/utils/contactForm.js"></script>
+    <div class="photographer_contenu"></div>
     <script src="scripts/pages/photographer.js"></script>
+    <script src="scripts/utils/contactForm.js"></script>
   </body>
 </html>
