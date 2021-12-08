@@ -31,7 +31,6 @@ class photographerFactory{
 
    getUserCardDOM() {
     const picture = `assets/photographers/${this.portrait}`;
-    const  a = document.createElement( 'a' );
     const article = document.createElement( 'article' );
     const img = document.createElement( 'img' );
     const h2 = document.createElement( 'h2' );
@@ -45,22 +44,19 @@ class photographerFactory{
     p.textContent = this.tagline;
     prix.textContent = this.price + ' €/jour';
     h2.textContent = this.name;
-    a.appendChild(article);
     article.appendChild(img);
     article.appendChild(h2);
     article.appendChild(span); 
     article.appendChild(p);
     article.appendChild(prix);
-/*     const card = `
-    <a href="#">
+  /*   const article = 
     <article>
-    <img src = ${picture}></img>
+    <img src = {picture}></img>
     <h2>{this.name}</h2>
-    <span>${this.country} , ${this.city}</span>
-     <p>${this.tageline}</p>
-     <p>${this.price} €/jour</p>
-    </article>
-    </a>; */
+    <span>{this.country} , {this.city}</span>
+     <p>{this.tageline}</p>
+     <p>{this.price} €/jour</p>
+    </article> */
     return (article); 
 }
 }

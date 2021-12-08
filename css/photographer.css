@@ -3,9 +3,43 @@
 }
 
 .photograph-header {
+  display: flex;
+  justify-content: space-between;
   background-color: #fafafa;
   height: 300px;
   margin: 0 100px;
+}
+
+.photograph-header div {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-self: center;
+}
+
+.photograph-header div h1 {
+  font-size: 64px;
+  color: #d3573c;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+#info {
+  display: block;
+  margin-left: 50px;
+}
+
+#city_country {
+  font-size: 24px;
+  color: #901c1c;
+  margin: 0;
+}
+
+.photograph-header img {
+  height: 200px;
+  width: 200px;
+  border-radius: 100%;
+  object-fit: cover;
 }
 
 .contact_button {
