@@ -1,11 +1,15 @@
 //Mettre le code JavaScript lié à la page photographer.html
-
+const myInit = { method: 'GET',
+               headers: myHeaders,
+               mode: 'cors',
+               cache: 'default' };
 const contenu = document.querySelector(".photographer_contenu");
+function fetch('../../index.html', myInit ) {
+    .then(res => console.log(res))
 
- fetch('../../data/photographers.json')
-.then(res => res.json())
-.then(data => console.log(data))
+}
 
+data.foreach(data => console.log(data))
 
 
 
