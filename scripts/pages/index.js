@@ -7,7 +7,8 @@
         data.photographers.forEach((photographer) => {
             const photographerModel =  new photographerFactory(photographer) ;
             const userCardDOM = photographerModel.getUserCardDOM();
-            photographersSection.appendChild/* innerHTML */(userCardDOM);
+            photographersSection.innerHTML += userCardDOM;
+         
         });
     })
            .catch(error => console.error(error.message));
