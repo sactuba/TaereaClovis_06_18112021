@@ -32,19 +32,21 @@ class photographerFactory{
    getUserCardDOM() {
     const picture = `assets/photographers/${this.portrait}`;
     const article = document.createElement( 'article' );
+    const a = document.createElement('a');
     const img = document.createElement( 'img' );
     const h2 = document.createElement( 'h2' );
     const span = document.createElement( 'span' );  
     const p = document.createElement( 'p' );
     const prix = document.createElement( 'p' );
     prix.className = "prix";
-    img.setAttribute('href', "photographer.html"); 
+    a.setAttribute('href', "photographer.html"); 
     img.setAttribute("src", picture)
     span.textContent = this.country + ', ' + this.city ;
     p.textContent = this.tagline;
     prix.textContent = this.price + ' €/jour';
     h2.textContent = this.name;
-    article.appendChild(img);
+    a.appendChild(img);
+    article.appendChild(a);
     article.appendChild(h2);
     article.appendChild(span); 
     article.appendChild(p);
