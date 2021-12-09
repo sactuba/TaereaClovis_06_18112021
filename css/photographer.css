@@ -119,32 +119,42 @@ form textarea {
   font-size: 2em;
 }
 
-.contenue {
+.filter {
   display: flex;
-  margin: 0 100px;
+  margin: 50px 100px;
 }
 
-.contenue label {
-  margin-right: 20px;
-  font-weight: bold;
+.photographer_contenu {
+}
+
+.photographer_contenu label {
+  margin-top: 30px;
   font-size: 18px;
+  font-weight: 700;
 }
 
 #order_by {
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  padding: 11px;
   width: 170px;
-  height: 70px;
-  border: none;
-  background-color: #911c1c;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-.filtre {
-  position: relative;
-  margin-top: 30px;
-  width: 100%;
+#date {
+  display: none;
+}
+
+#titre {
+  display: none;
+}
+
+#order_by li {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  padding: 11px;
+  width: 160px;
+  height: 50px;
+  border: none;
+  background-color: #911c1c;
+  border-radius: 0;
+  cursor: pointer;
+  border-bottom: 1px solid #fff;
 }

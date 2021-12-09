@@ -5,7 +5,7 @@ class photographerFactory{
     this.id = photographer.id
     this.city = photographer.city
     this.country = photographer.country
-    this.tageline = photographer.tageline
+    this.tagline = photographer.tagline
     this.price = photographer.price
     this.portrait = photographer.portrait 
   }
@@ -39,7 +39,7 @@ class photographerFactory{
     </a>
     <h2>${this.name}</h2>
     <span>${this.country} , ${this.city}</span>
-     <p>${this.tageline}</p>
+     <p>${this.tagline}</p>
      <p>${this.price} €/jour</p>
     </article>`
   console.log(articles);
