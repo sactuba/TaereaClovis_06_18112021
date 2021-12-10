@@ -55,6 +55,8 @@
   cursor: pointer;
 }
 
+/*  Modal du formulaire */
+
 .modal {
   border-radius: 5px;
   background-color: #db8876;
@@ -81,6 +83,8 @@
   font-weight: normal;
   text-align: center;
 }
+
+/*            Formulaire                             */
 
 form {
   display: flex;
@@ -119,18 +123,12 @@ form textarea {
   font-size: 2em;
 }
 
+/*            Filtre                          */
+
 .filter {
+  width: 100%;
   display: flex;
-  margin: 50px 100px;
-}
-
-.photographer_contenu {
-}
-
-.photographer_contenu label {
-  margin-top: 30px;
-  font-size: 18px;
-  font-weight: 700;
+  margin-bottom: 50px;
 }
 
 #order_by {
@@ -151,10 +149,50 @@ form textarea {
   color: white;
   padding: 11px;
   width: 160px;
-  height: 50px;
+  height: 40px;
   border: none;
   background-color: #911c1c;
   border-radius: 0;
   cursor: pointer;
   border-bottom: 1px solid #fff;
+}
+
+/*      Affichage des photos            */
+
+.photographer_contenu {
+  margin: 0 100px;
+}
+
+.filter label {
+  margin-top: 30px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.photo {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  row-gap: 50px;
+  margin-top: 50px;
+}
+
+.photo_card {
+  height: 331px;
+  width: 380px;
+}
+
+.photo_card img {
+  height: 90%;
+  width: 100%;
+  border-radius: 5px;
+}
+
+#legende {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  height: 31px;
+  font-size: 24px;
+  color: #901c1c;
 }
