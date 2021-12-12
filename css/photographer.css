@@ -55,6 +55,11 @@
   cursor: pointer;
 }
 
+.contact_button:active {
+  color: black;
+  background-color: #db8876;
+}
+
 /*  Modal du formulaire */
 
 .modal {
@@ -160,6 +165,7 @@ form textarea {
 /*      Affichage des photos            */
 
 .photographer_contenu {
+  position: relative;
   margin: 0 100px;
 }
 
@@ -172,7 +178,7 @@ form textarea {
 .photo {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
+  justify-items: center;
   row-gap: 50px;
   margin-top: 50px;
 }
@@ -195,4 +201,27 @@ form textarea {
   height: 31px;
   font-size: 24px;
   color: #901c1c;
+}
+
+.like_price {
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+  height: 89px;
+  width: 376px;
+  right: 50px;
+  bottom: -15px;
+  border-radius: 5px;
+  background-color: #db8876;
+  position: fixed;
+  font-size: 24px;
+}
+
+.total_likes {
+  margin-top: 25px;
+}
+
+.price {
+  margin-top: 25px;
 }

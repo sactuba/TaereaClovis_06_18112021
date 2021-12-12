@@ -6,20 +6,19 @@ fetch('../../data/photographers.json')
 .then(data => {
     const photoSection = document.getElementById('photo');
     const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
-    const media = data.media.filter(media => media.photograppherId == photographer.id);
+    /* const media = */ data.media.filter(media => media.photograppherId == photographer.id);
     const photographerInfoMain = new photographerPage(photographer);
-    const photographerInfo = photographerInfoMain.infoPhotographer();
-    data.media.forEach((photographerMediaInfo) => {
-        const photographerMedia = new photographerMediaPhoto(photographerMediaInfo);
+    photographerInfoMain.infoPhotographer();
+    data.media.forEach((media) => {
+        const photographerMedia = new photographerMediaPhoto(media);
         const cardPhotoDom =  photographerMedia.mediaPhotographer();
         photoSection.innerHTML += cardPhotoDom;
+        console.log(media);
+        console.log(cardPhotoDom);
     });
-    console.log(cardPhotoDom);
-    console.log(photographerInfo);
-})
+});
 
 
-fetch('../../assets/Sample Photos/')
 
 class photographerPage{
     constructor(photographer) {
@@ -31,7 +30,6 @@ class photographerPage{
         this.price = photographer.price
         this.portrait = photographer.portrait 
       }
-
       infoPhotographer() {
           const infoSection = document.getElementById('info');
          /*  const contactButtonSection = document.getElementById('contact_button'); */
@@ -55,6 +53,7 @@ class photographerMediaPhoto extends photographerPage {
     constuctor(media) {
         this.id_media = media.id
         this.photograppherId = media.id
+        this.video = media.video
         this.title = media.title
         this.image_media = media.image
         this.likes = media.likes
@@ -63,15 +62,24 @@ class photographerMediaPhoto extends photographerPage {
     }
 
     mediaPhotographer() {
+        const likePrice = document.getElementById('like_price');
 const photoCard = `
 <div class="photo_card">
 <img
-  src="/assets/Sample Photos/${this.name}/${this.image_media}"
+  src="/assets/Sample Photos/${this.name}/${this.image_media || this.video}"
   alt=""
 />
-<div id="legende">${this.title}<span id="like">${this.likes}</span></div>
+<div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
 </div>
 `
+const totalLikesPrice = `
+<span class="total_likes" id="total_likes">
+${this.title}
+<i class="fas fa-heart"></i
+></span>
+<span class="price" id="price">${this.price_media} /jour</span>
+`
+likePrice.innerHTML = totalLikesPrice;
        return(photoCard);
     }
 }
