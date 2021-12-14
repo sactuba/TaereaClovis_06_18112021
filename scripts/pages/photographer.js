@@ -6,7 +6,7 @@ fetch('../../data/photographers.json')
 .then(data => {
     const photoSection = document.getElementById('photo');
     const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
-    /* const media = */ data.media.filter(media => media.photograppherId == photographer.id);
+    /* const media = */ data.media.filter(media => media.photographerId == photographer.id);
     const photographerInfoMain = new photographerPage(photographer);
     photographerInfoMain.infoPhotographer();
     data.media.forEach((media) => {
@@ -49,10 +49,10 @@ class photographerPage{
     }
 }
 
-class photographerMediaPhoto extends photographerPage {
-    constuctor(media) {
+class photographerMediaPhoto /* extends photographerPage */ {
+    constructor(media) {
         this.id_media = media.id
-        this.photograppherId = media.id
+        this.photograppherId = media.photographerid
         this.video = media.video
         this.title = media.title
         this.image_media = media.image
@@ -66,7 +66,7 @@ class photographerMediaPhoto extends photographerPage {
 const photoCard = `
 <div class="photo_card">
 <img
-  src="/assets/Sample Photos/${this.name}/${this.image_media || this.video}"
+  src="../../assets/Sample Photos/${this.image_media/*  || this.video */}"
   alt=""
 />
 <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
