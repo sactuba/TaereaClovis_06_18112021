@@ -6,21 +6,22 @@ fetch('../../data/photographers.json')
 .then(data => {
     const photoSection = document.getElementById('photo');
     const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
-    /* const media = */ data.media.filter(media => media.photographerId == photographer.id);
-    const photographerInfoMain = new photographerPage(photographer);
+    const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
+    const photographerInfoMain = new PhotographerPage(photographer);
     photographerInfoMain.infoPhotographer();
-    data.media.forEach((media) => {
-        const photographerMedia = new photographerMediaPhoto(media);
+    console.log(filterPhotos);
+    filterPhotos.forEach(media => { 
+        const photographerMedia = new PhotographerMediaPhoto(media);
         const cardPhotoDom =  photographerMedia.mediaPhotographer();
         photoSection.innerHTML += cardPhotoDom;
-        console.log(media);
-        console.log(cardPhotoDom);
+        /* console.log(media); */
+        /* console.log(cardPhotoDom); */
     });
 });
 
 
 
-class photographerPage{
+class PhotographerPage{
     constructor(photographer) {
         this.name = photographer.name
         this.id = photographer.id
@@ -49,7 +50,7 @@ class photographerPage{
     }
 }
 
-class photographerMediaPhoto /* extends photographerPage */ {
+class PhotographerMediaPhoto /* extends photographerPage */ {
     constructor(media) {
         this.id_media = media.id
         this.photograppherId = media.photographerid
@@ -63,6 +64,7 @@ class photographerMediaPhoto /* extends photographerPage */ {
 
     mediaPhotographer() {
         const likePrice = document.getElementById('like_price');
+
 const photoCard = `
 <div class="photo_card">
 <img
@@ -71,7 +73,17 @@ const photoCard = `
 />
 <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
 </div>
-`
+`  
+/* const videoCard = `
+<div class="photo_card">
+<video>
+  <src="../../assets/Sample Photos/${/* this.image_media ||  this.video}"
+  alt=""
+></video>
+<div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
+</div>
+` */
+
 const totalLikesPrice = `
 <span class="total_likes" id="total_likes">
 ${this.title}
@@ -82,10 +94,21 @@ ${this.title}
 likePrice.innerHTML = totalLikesPrice;
        return(photoCard);
     }
+     filter() {
+        let populariteFilter = document.getElementById("popularité");
+        let dateFilter = document.getElementById("date");
+        let titreFilter = document.getElementById("titre");
+        const filterPhotos = this.date.filter(media => media.photographerId == photographer.id); 
+        const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
+        const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
+    
+    }
 }
 
-function filter() {
+/* function filter() {
     let populariteFilter = document.getElementById("popularité");
     let dateFilter = document.getElementById("date");
     let titreFilter = document.getElementById("titre");
-}
+    const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
+
+} */
