@@ -13,6 +13,7 @@ fetch('../../data/photographers.json')
     filterPhotos.forEach(media => { 
         const photographerMedia = new PhotographerMediaPhoto(media);
         const cardPhotoDom =  photographerMedia.mediaPhotographer();
+        
         photoSection.innerHTML += cardPhotoDom;
         /* console.log(media); */
         /* console.log(cardPhotoDom); */
@@ -65,7 +66,8 @@ class PhotographerMediaPhoto /* extends photographerPage */ {
     mediaPhotographer() {
         const likePrice = document.getElementById('like_price');
 
-const photoCard = `
+        if (this.image_media = this.image_media) {
+            const photoCard = `
 <div class="photo_card">
 <img
   src="../../assets/Sample Photos/${this.image_media/*  || this.video */}"
@@ -74,15 +76,20 @@ const photoCard = `
 <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
 </div>
 `  
-/* const videoCard = `
-<div class="photo_card">
-<video>
-  <src="../../assets/Sample Photos/${/* this.image_media ||  this.video}"
-  alt=""
-></video>
-<div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
-</div>
-` */
+ }else {
+            const videoCard = `
+            <div class="photo_card">
+            <video>
+              <src="../../assets/Sample Photos/${this.video}"
+              alt=""
+            ></video>
+            <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
+            </div>
+            `
+        }
+
+
+
 
 const totalLikesPrice = `
 <span class="total_likes" id="total_likes">
@@ -92,9 +99,17 @@ ${this.title}
 <span class="price" id="price">${this.price_media} /jour</span>
 `
 likePrice.innerHTML = totalLikesPrice;
-       return(photoCard);
+       /* return(); */
     }
-     filter() {
+
+}
+
+
+
+const likeClick = document.querySelectorAll(".fa-heart");
+const likeCounter = document.querySelectorAll("#like");
+
+/*      filter() {
         let populariteFilter = document.getElementById("popularité");
         let dateFilter = document.getElementById("date");
         let titreFilter = document.getElementById("titre");
@@ -102,13 +117,4 @@ likePrice.innerHTML = totalLikesPrice;
         const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
         const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
     
-    }
-}
-
-/* function filter() {
-    let populariteFilter = document.getElementById("popularité");
-    let dateFilter = document.getElementById("date");
-    let titreFilter = document.getElementById("titre");
-    const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
-
-} */
+    } */
