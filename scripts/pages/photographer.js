@@ -9,11 +9,10 @@ fetch('../../data/photographers.json')
     const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
     const photographerInfoMain = new PhotographerPage(photographer);
     photographerInfoMain.infoPhotographer();
-    console.log(filterPhotos);
+    /* console.log(filterPhotos); */
     filterPhotos.forEach(media => { 
         const photographerMedia = new PhotographerMediaPhoto(media);
         const cardPhotoDom =  photographerMedia.mediaPhotographer();
-        
         photoSection.innerHTML += cardPhotoDom;
         /* console.log(media); */
         /* console.log(cardPhotoDom); */
@@ -51,7 +50,7 @@ class PhotographerPage{
     }
 }
 
-class PhotographerMediaPhoto /* extends photographerPage */ {
+class PhotographerMediaPhoto {
     constructor(media) {
         this.id_media = media.id
         this.photograppherId = media.photographerid
@@ -63,58 +62,90 @@ class PhotographerMediaPhoto /* extends photographerPage */ {
         this.price_media = media.price
     }
 
-    mediaPhotographer() {
-        const likePrice = document.getElementById('like_price');
 
-        if (this.image_media = this.image_media) {
-            const photoCard = `
-<div class="photo_card">
-<img
-  src="../../assets/Sample Photos/${this.image_media/*  || this.video */}"
-  alt=""
-/>
-<div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
-</div>
-`  
- }else {
-            const videoCard = `
+
+    mediaPhotographer() {
+        if(this.id_media) {
+        var card =  
+            `
+           <div class="photo_card">
+           <img src="../../assets/Sample Photos/${this.image_media}" alt="" onclick="openModalPhoto()"/>
+          <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
+          </div>
+            `  
+        }else {
+       var card =  
+            `
             <div class="photo_card">
             <video>
               <src="../../assets/Sample Photos/${this.video}"
-              alt=""
-            ></video>
+              type="mp4"
+              alt="">
+             </video>
             <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
             </div>
             `
         }
 
-
-
-
-const totalLikesPrice = `
-<span class="total_likes" id="total_likes">
-${this.title}
-<i class="fas fa-heart"></i
-></span>
-<span class="price" id="price">${this.price_media} /jour</span>
-`
-likePrice.innerHTML = totalLikesPrice;
-       /* return(); */
+    const allIdLikes = document.getElementById("like");
+    console.log(allIdLikes);
+    const likePrice = document.getElementById('like_price');
+    const totalLikesPrice = `
+    <span class="total_likes" id="total_likes">
+    ${this.title}
+    <i class="fas fa-heart"></i
+    ></span>
+    <span class="price" id="price">${this.price_media}€ /jour</span>
+    `
+    likePrice.innerHTML = totalLikesPrice;
+       return card;
     }
 
 }
 
 
+ 
+function openModalPhoto() {
+    document.getElementById("photoModal").style.display = "block";
+    document.getElementById("photoModal").innerHTML = 
+    `
+    <div class="modal-content">
+    <span class="close" onclick="closeModalPhoto()"
+      ><i class="fas fa-times"></i
+    ></span>
+    <span class="left"><i class="fas fa-angle-left"></i></span>
+    <span class="right"><i class="fas fa-angle-right"></i></span>
+    <div class="photo_content">
+      <img
+        src="../Sample Photosl/Travel_Tower.jpg"
+        alt=""
+        class="photoContent"
+      />
+    </div>
+  </div>
+    `;
+}
+function closeModalPhoto() {
+    document.getElementById("photoModal").style.display = "none";
+}
 
 const likeClick = document.querySelectorAll(".fa-heart");
 const likeCounter = document.querySelectorAll("#like");
 
-/*      filter() {
-        let populariteFilter = document.getElementById("popularité");
+   function  filterDate() {
         let dateFilter = document.getElementById("date");
-        let titreFilter = document.getElementById("titre");
-        const filterPhotos = this.date.filter(media => media.photographerId == photographer.id); 
-        const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
-        const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
+        const filterByDate = this.date.filter(media => media.photographerId == media.date); 
     
-    } */
+    }
+
+    function filterPopularity() {
+        let populariteFilter = document.getElementById("popularité");
+        const filterByLike = this.likes.filter(media => media.photographerId == media.likes); 
+
+    }
+
+    function filterTitle() {
+        let titleFilter = document.getElementById("titre");
+        const filterByTitle = this.title.filter(media => media.photographerId == media.title); 
+
+    }
