@@ -296,9 +296,15 @@ option {
 }
 .right {
   color: #901c1c;
-
   position: absolute;
   right: 0;
   top: 50%;
   font-size: 50px;
+}
+
+.modal_title {
+  color: #901c1c;
+  font-size: 24px;
+  position: absolute;
+  bottom: 0;
 }

@@ -82,6 +82,7 @@ class PhotographerMediaPhoto {
               type="mp4"
               alt="">
              </video>
+             <div id="legende">${this.title}</div>
             <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
             </div>
             `
@@ -104,7 +105,7 @@ class PhotographerMediaPhoto {
 }
 
 
- 
+
 function openModalPhoto() {
     document.getElementById("photoModal").style.display = "block";
     document.getElementById("photoModal").innerHTML = 
@@ -117,17 +118,24 @@ function openModalPhoto() {
     <span class="right"><i class="fas fa-angle-right"></i></span>
     <div class="photo_content">
       <img
-        src="../Sample Photosl/Travel_Tower.jpg"
+        src="../Sample Photos/Animals_majesty.jpg"
         alt=""
         class="photoContent"
       />
+      <span class="modal_title" id="modalTitle">Title</span>
     </div>
   </div>
     `;
 }
+
 function closeModalPhoto() {
     document.getElementById("photoModal").style.display = "none";
 }
+
+
+
+
+
 
 const likeClick = document.querySelectorAll(".fa-heart");
 const likeCounter = document.querySelectorAll("#like");

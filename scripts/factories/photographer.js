@@ -7,7 +7,7 @@ class photographerFactory{
     this.country = photographer.country
     this.tagline = photographer.tagline
     this.price = photographer.price
-    this.portrait = photographer.portrait 
+    this.portrait = photographer.portrait
   }
   
 /*   get name() {
