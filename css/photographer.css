@@ -151,8 +151,7 @@ select {
   margin-left: 15px;
 }
 
-select,
-option {
+select {
   font-size: 18px;
   font-weight: 700;
   color: white;
@@ -162,6 +161,17 @@ option {
   border-radius: 5px;
   cursor: pointer;
   /* border-bottom: 1px solid #fff; */
+}
+
+option {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  padding: 20px;
+  background-color: #911c1c;
+  border-radius: 5px;
+  cursor: pointer;
+  border-bottom: 1px solid #fff;
 }
 
 /*      Affichage des photos            */
@@ -180,14 +190,14 @@ option {
 .photo {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  justify-items: center;
   row-gap: 50px;
-  margin-top: 50px;
+  column-gap: 10%;
 }
 
 .photo_card {
-  height: 331px;
-  width: 380px;
+  max-height: 450px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .photo_card img {
@@ -195,6 +205,7 @@ option {
   width: 100%;
   border-radius: 5px;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .photo_card video {
@@ -202,6 +213,7 @@ option {
   width: 100%;
   border-radius: 5px;
   object-fit: cover;
+  cursor: pointer;
 }
 
 #legende {
@@ -211,6 +223,16 @@ option {
   height: 31px;
   font-size: 24px;
   color: #901c1c;
+}
+
+.fa-heart {
+  color: #901c1c;
+  margin-left: 10px;
+}
+
+#like {
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .like_price {
@@ -242,7 +264,7 @@ option {
   display: none;
   position: fixed;
   z-index: 1;
-  padding-top: 100px;
+  padding-top: 4%;
   left: 0;
   top: 0;
   width: 100%;
@@ -261,11 +283,9 @@ option {
 
 .modal-content {
   position: relative;
-  background-color: gray;
   margin: auto;
   padding: 0;
-  width: 90%;
-  height: 80%;
+  max-width: 60%;
 }
 
 .close {
@@ -280,12 +300,15 @@ option {
 .photo_content {
   display: flex;
   justify-content: center;
-  width: 50%;
+  max-width: 50%;
+  max-height: 600px;
+  margin: auto auto;
 }
 
 .photoContent {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
 }
 .left {
   color: #901c1c;
@@ -306,5 +329,6 @@ option {
   color: #901c1c;
   font-size: 24px;
   position: absolute;
-  bottom: 0;
+  bottom: -35px;
+  left: 25%;
 }

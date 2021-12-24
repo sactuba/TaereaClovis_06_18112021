@@ -18,7 +18,9 @@
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" href="index.html" />
+      <a href="index.html">
+        <img src="assets/images/logo.png" class="logo" />
+      </a>
     </header>
     <main id="main">
       <div class="photograph-header">
@@ -68,11 +70,9 @@
       <div class="filter">
         <label for="order_by">Trier par</label>
         <select name="" id="order_by">
-          <option id="popularité" onclick="filterPopularity()">
-            Popularité
-          </option>
-          <option id="date" onclick="filterDate()">Date</option>
-          <option id="titre" onclick="filterTitle()">Titre</option>
+          <option id="popularité" onclick="">Popularité</option>
+          <option id="date">Date</option>
+          <option id="titre">Titre</option>
         </select>
       </div>
       <div class="photo" id="photo"></div>

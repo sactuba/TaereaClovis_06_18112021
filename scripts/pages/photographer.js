@@ -1,23 +1,34 @@
 //Mettre le code JavaScript lié à la page photographer.html
-const url = new URLSearchParams(document.location.search);
-const id = url.get('id');
-fetch('../../data/photographers.json')
-.then(response => response.json())
-.then(data => {
+
+
+async function displayPhotographeMedia() {
+    const url =  new URLSearchParams(document.location.search);
+    const id = url.get('id');
+    let response = await fetch('../../data/photographers.json');
+    let data = await response.json();
+
     const photoSection = document.getElementById('photo');
     const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
     const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
     const photographerInfoMain = new PhotographerPage(photographer);
     photographerInfoMain.infoPhotographer();
     /* console.log(filterPhotos); */
+    
     filterPhotos.forEach(media => { 
         const photographerMedia = new PhotographerMediaPhoto(media);
         const cardPhotoDom =  photographerMedia.mediaPhotographer();
-        photoSection.innerHTML += cardPhotoDom;
-        /* console.log(media); */
-        /* console.log(cardPhotoDom); */
+        const displayMedias = photoSection.innerHTML += cardPhotoDom;  
     });
-});
+    
+} 
+/* const filterPopularity = document.getElementById("popularité").onclick = displayMedias.filter(card.likes);
+const filterTitle = document.getElementById("titre").onclick = displayMedias.sort();
+
+const filterDate = document.getElementById("date").onclick = alert("azepzpaeoazpe");
+console.log(filterDate); */
+ 
+displayPhotographeMedia();
+
 
 
 
@@ -46,9 +57,23 @@ class PhotographerPage{
           iconePhotoMain.innerHTML += photoMain;
           infoSection.innerHTML += info;
          /*  console.log(info); */
+         const likePrice = document.getElementById('like_price');
+         const totalLikesPrice = `
+         <span class="total_likes" id="total_likes">
+         ${this.title}
+         <i class="fas fa-heart"></i
+         ></span>
+         <span class="price" id="price">${this.price}€ /jour</span>
+         `
+         likePrice.innerHTML = totalLikesPrice;
           return (info, photoMain);
     }
+
+    
 }
+
+
+
 
 class PhotographerMediaPhoto {
     constructor(media) {
@@ -62,11 +87,10 @@ class PhotographerMediaPhoto {
         this.price_media = media.price
     }
 
-
-
     mediaPhotographer() {
-        if(this.id_media) {
-        var card =  
+        let card;
+        if(this.video == undefined) {
+         card =  
             `
            <div class="photo_card">
            <img src="../../assets/Sample Photos/${this.image_media}" alt="" onclick="openModalPhoto()"/>
@@ -74,42 +98,21 @@ class PhotographerMediaPhoto {
           </div>
             `  
         }else {
-       var card =  
+        card =  
             `
             <div class="photo_card">
-            <video>
-              <src="../../assets/Sample Photos/${this.video}"
-              type="mp4"
-              alt="">
-             </video>
-             <div id="legende">${this.title}</div>
+            <video src="../../assets/Sample Photos/${this.video}" type="video/mp4" controls></video>
             <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
             </div>
             `
         }
-
-    const allIdLikes = document.getElementById("like");
-    console.log(allIdLikes);
-    const likePrice = document.getElementById('like_price');
-    const totalLikesPrice = `
-    <span class="total_likes" id="total_likes">
-    ${this.title}
-    <i class="fas fa-heart"></i
-    ></span>
-    <span class="price" id="price">${this.price_media}€ /jour</span>
-    `
-    likePrice.innerHTML = totalLikesPrice;
-       return card;
-    }
-
+    return card;
 }
 
-
-
-function openModalPhoto() {
-    document.getElementById("photoModal").style.display = "block";
-    document.getElementById("photoModal").innerHTML = 
-    `
+/* openModalPhoto() {
+  document.getElementById("photoModal").style.display = "block";  
+    document.getElementById("photoModal").innerHTML =
+    ` 
     <div class="modal-content">
     <span class="close" onclick="closeModalPhoto()"
       ><i class="fas fa-times"></i
@@ -118,42 +121,64 @@ function openModalPhoto() {
     <span class="right"><i class="fas fa-angle-right"></i></span>
     <div class="photo_content">
       <img
-        src="../Sample Photos/Animals_majesty.jpg"
+        src="${this.image_media}"
         alt=""
         class="photoContent"
       />
-      <span class="modal_title" id="modalTitle">Title</span>
+      <span class="modal_title" id="modalTitle">${this.title}</span>
     </div>
   </div>
     `;
+  }
+  
+  closeModalPhoto(e) {
+   document.getElementById("photoModal").style.display = "none";
+} */
+
+
+
 }
+
+
+
+function openModalPhoto() {
+  document.getElementById("photoModal").style.display = "block";  
+   document.getElementById("photoModal").innerHTML =
+   ` 
+   <div class="modal-content">
+   <span class="close" onclick="closeModalPhoto()"
+     ><i class="fas fa-times"></i
+   ></span>
+   <span class="left"><i class="fas fa-angle-left"></i></span>
+   <span class="right"><i class="fas fa-angle-right"></i></span>
+   <div class="photo_content">
+     <img
+       src="../../assets/Sample Photos/Animals_Majesty.jpg"
+       alt=""
+       class="photoContent"
+     />
+     <span class="modal_title" id="modalTitle">Titre</span>
+   </div>
+ </div>
+   `;
+}
+
+
 
 function closeModalPhoto() {
     document.getElementById("photoModal").style.display = "none";
 }
 
+/* function likeEl() {
+  
+}
+
+const el = document.getElementsByClassName("like")  ;
+console.log(el); */
 
 
 
 
-
-const likeClick = document.querySelectorAll(".fa-heart");
-const likeCounter = document.querySelectorAll("#like");
-
-   function  filterDate() {
-        let dateFilter = document.getElementById("date");
-        const filterByDate = this.date.filter(media => media.photographerId == media.date); 
-    
-    }
-
-    function filterPopularity() {
-        let populariteFilter = document.getElementById("popularité");
-        const filterByLike = this.likes.filter(media => media.photographerId == media.likes); 
-
-    }
-
-    function filterTitle() {
-        let titleFilter = document.getElementById("titre");
-        const filterByTitle = this.title.filter(media => media.photographerId == media.title); 
-
-    }
+document.addEventListener('keydown', e =>{
+  console.log(e);
+})

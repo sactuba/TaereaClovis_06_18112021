@@ -41,12 +41,6 @@ class photographerFactory{
     <span>${this.country} , ${this.city}</span>
      <p>${this.tagline}</p>
      <p>${this.price} €/jour</p>
-     <div class="nav">
-     <button type="button" class="filter_button" id="">#Portrait</button>
-     <button type="button" class="filter_button" id="">#Travel</button>
-     <button type="button" class="filter_button" id="">#Animals</button>
-     <button type="button" class="filter_button" id="">#Events</button>
-   </div>
     </article>`
   console.log(articles);
     return (articles); 
