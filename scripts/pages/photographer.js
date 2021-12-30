@@ -165,8 +165,9 @@ async function filterPhoto(value) {
       photos = filterPhotos.sort((a,b) => b.date - a.date);   
     }
 
-     const photographerInfoMain = new PhotographerMediaPhoto(media);
-    const cardTag = photographerInfoMain.mediaPhotographer();
+    photoSection.innerHTML = '<div></div>';
+     const photographerInfoMain = new PhotographerPage(photographer);
+     photographerInfoMain.infoPhotographer();
 
     photos.forEach(media => { 
       const photographerMedia = new PhotographerMediaPhoto(media);
