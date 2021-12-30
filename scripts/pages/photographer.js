@@ -2,7 +2,7 @@
 
 
 async function displayPhotographeMedia() {
-    const url =  new URLSearchParams(document.location.search);
+/*     const url =  new URLSearchParams(document.location.search);
     const id = url.get('id');
     let response = await fetch('../../data/photographers.json');
     let data = await response.json();
@@ -12,20 +12,10 @@ async function displayPhotographeMedia() {
     const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
     const photographerInfoMain = new PhotographerPage(photographer);
     photographerInfoMain.infoPhotographer();
-    /* console.log(filterPhotos); */
-    
-    filterPhotos.forEach(media => { 
-        const photographerMedia = new PhotographerMediaPhoto(media);
-        const cardPhotoDom =  photographerMedia.mediaPhotographer();
-        const displayMedias = photoSection.innerHTML += cardPhotoDom;  
-    });
-    
+    console.log(filterPhotos);  */
+    filterPhoto("popularity");
 } 
-/* const filterPopularity = document.getElementById("popularité").onclick = displayMedias.filter(card.likes);
-const filterTitle = document.getElementById("titre").onclick = displayMedias.sort();
-
-const filterDate = document.getElementById("date").onclick = alert("azepzpaeoazpe");
-console.log(filterDate); */
+ 
  
 displayPhotographeMedia();
 
@@ -33,6 +23,7 @@ displayPhotographeMedia();
 
 
 class PhotographerPage{
+
     constructor(photographer) {
         this.name = photographer.name
         this.id = photographer.id
@@ -42,6 +33,7 @@ class PhotographerPage{
         this.price = photographer.price
         this.portrait = photographer.portrait 
       }
+
       infoPhotographer() {
           const infoSection = document.getElementById('info');
          /*  const contactButtonSection = document.getElementById('contact_button'); */
@@ -109,34 +101,6 @@ class PhotographerMediaPhoto {
     return card;
 }
 
-/* openModalPhoto() {
-  document.getElementById("photoModal").style.display = "block";  
-    document.getElementById("photoModal").innerHTML =
-    ` 
-    <div class="modal-content">
-    <span class="close" onclick="closeModalPhoto()"
-      ><i class="fas fa-times"></i
-    ></span>
-    <span class="left"><i class="fas fa-angle-left"></i></span>
-    <span class="right"><i class="fas fa-angle-right"></i></span>
-    <div class="photo_content">
-      <img
-        src="${this.image_media}"
-        alt=""
-        class="photoContent"
-      />
-      <span class="modal_title" id="modalTitle">${this.title}</span>
-    </div>
-  </div>
-    `;
-  }
-  
-  closeModalPhoto(e) {
-   document.getElementById("photoModal").style.display = "none";
-} */
-
-
-
 }
 
 
@@ -169,16 +133,44 @@ function closeModalPhoto() {
     document.getElementById("photoModal").style.display = "none";
 }
 
-/* function likeEl() {
-  
-}
-
-const el = document.getElementsByClassName("like")  ;
-console.log(el); */
-
-
-
-
 document.addEventListener('keydown', e =>{
   console.log(e);
 })
+
+
+const filterTag = document.getElementById("order_by");
+filterTag.addEventListener('change', function(){
+  const value = filterTag.value;
+  filterPhoto(value);
+});
+
+async function filterPhoto(value) {
+  const url =  new URLSearchParams(document.location.search);
+  const id = url.get('id');
+  let response = await fetch('../../data/photographers.json');
+  let data = await response.json();
+
+  const photoSection = document.getElementById('photo');
+  const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
+  const filterPhotos = data.media.filter(media => media.photographerId == photographer.id);
+   
+  let photos;
+    if(value === 'popularity') {
+      photos = filterPhotos.sort((a,b) => b.likes - a.likes);
+      photoSection.innerHTML += photos;
+      console.log(photos);
+    } else if(value === 'titre') {
+      photos = filterPhotos.sort((a,b) => b.title - a.title);
+    } else {
+      photos = filterPhotos.sort((a,b) => b.date - a.date);   
+    }
+
+     const photographerInfoMain = new PhotographerMediaPhoto(media);
+    const cardTag = photographerInfoMain.mediaPhotographer();
+
+    photos.forEach(media => { 
+      const photographerMedia = new PhotographerMediaPhoto(media);
+      const cardPhotoDom =  photographerMedia.mediaPhotographer();
+      photoSection.innerHTML += cardPhotoDom; 
+    });
+}     

@@ -42,7 +42,7 @@ class photographerFactory{
      <p>${this.tagline}</p>
      <p>${this.price} €/jour</p>
     </article>`
-  console.log(articles);
+  /* console.log(articles); */
     return (articles); 
 }
 }
