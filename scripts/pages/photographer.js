@@ -8,7 +8,7 @@ async function displayPhotographeMedia() {
  
 displayPhotographeMedia();
 
-class PhotographerPage{
+class PhotographerPage {
 
     constructor(photographer) {
         this.name = photographer.name
@@ -39,7 +39,7 @@ class PhotographerPage{
          const likePrice = document.getElementById('like_price');
          const totalLikesPrice = `
          <span class="total_likes" id="total_likes">
-         ${this.title}
+         
          <i class="fas fa-heart"></i
          ></span>
          <span class="price" id="price">${this.price}€ /jour</span>
@@ -64,15 +64,24 @@ class PhotographerMediaPhoto {
         this.price_media = media.price
     }
 
+   
+    
+    
 
     mediaPhotographer() {
-
-      let thisLikes = [this.likes];
+      let thisLikes = this.likes;
       console.log(thisLikes);
-      for( let i = 0; i = thisLikes.length; i++) {
-         /* console.log(thisLikes);  */
-      }
-        let card;
+      var test = photosTag.map(a => a.likes).reduce((prev, curr) => prev + curr, 0);
+      console.log(test);
+  /*     insertLikes = document.getElementById('total_likes');
+      console.log(); */
+/* 
+      totalLikes = `<span class="total_likes" id="total_likes">
+      ${test}
+      <i class="fas fa-heart"></i
+      ></span>`
+         likePrice.innerHTML += totalLikesPrice; */
+         let card;
         if(this.video == undefined) {
          card =  
             `
@@ -132,8 +141,11 @@ async function filterPhoto(value) {
   
   console.log(photosTag);
   
-}                        
-function openModalPhoto() {
+}          
+
+class Modal extends PhotographerMediaPhoto {
+
+ openModalPhoto() {
   document.getElementById("photoModal").style.display = "block";  
    document.getElementById("photoModal").innerHTML =
    ` 
@@ -145,20 +157,21 @@ function openModalPhoto() {
    <span class="right"><i class="fas fa-angle-right"></i></span>
    <div class="photo_content">
      <img
-       src="../../assets/Sample Photos/Animals_Majesty.jpg"
+       src="../../assets/Sample Photos/${this.image_media}"
        alt=""
        class="photoContent"
      />
-     <span class="modal_title" id="modalTitle">Titre</span>
+     <span class="modal_title" id="modalTitle">${this.title}</span>
    </div>
  </div>
    `;
-}
+ }
 
 
 
-function closeModalPhoto() {
+ closeModalPhoto() {
     document.getElementById("photoModal").style.display = "none";
+ }
 }
 
 document.addEventListener('keydown', e =>{
