@@ -1,26 +1,12 @@
 //Mettre le code JavaScript lié à la page photographer.html
+ 
 
+async function displayPhotographeMedia() {  
+  await filterPhoto( );
 
-async function displayPhotographeMedia() {
-/*     const url =  new URLSearchParams(document.location.search);
-    const id = url.get('id');
-    let response = await fetch('../../data/photographers.json');
-    let data = await response.json();
-
-    const photoSection = document.getElementById('photo');
-    const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
-    const filterPhotos = data.media.filter(media => media.photographerId == photographer.id); 
-    const photographerInfoMain = new PhotographerPage(photographer);
-    photographerInfoMain.infoPhotographer();
-    console.log(filterPhotos);  */
-    filterPhoto("popularity");
 } 
  
- 
 displayPhotographeMedia();
-
-
-
 
 class PhotographerPage{
 
@@ -33,6 +19,8 @@ class PhotographerPage{
         this.price = photographer.price
         this.portrait = photographer.portrait 
       }
+
+
 
       infoPhotographer() {
           const infoSection = document.getElementById('info');
@@ -48,7 +36,6 @@ class PhotographerPage{
           `
           iconePhotoMain.innerHTML += photoMain;
           infoSection.innerHTML += info;
-         /*  console.log(info); */
          const likePrice = document.getElementById('like_price');
          const totalLikesPrice = `
          <span class="total_likes" id="total_likes">
@@ -60,8 +47,6 @@ class PhotographerPage{
          likePrice.innerHTML = totalLikesPrice;
           return (info, photoMain);
     }
-
-    
 }
 
 
@@ -79,7 +64,14 @@ class PhotographerMediaPhoto {
         this.price_media = media.price
     }
 
+
     mediaPhotographer() {
+
+      let thisLikes = [this.likes];
+      console.log(thisLikes);
+      for( let i = 0; i = thisLikes.length; i++) {
+         /* console.log(thisLikes);  */
+      }
         let card;
         if(this.video == undefined) {
          card =  
@@ -105,6 +97,42 @@ class PhotographerMediaPhoto {
 
 
 
+const filterTag = document.getElementById("order_by");
+filterTag.addEventListener('change', function(){
+  const value = filterTag.value;
+  filterPhoto(value);
+});
+
+async function filterPhoto(value) {
+  const url =  new URLSearchParams(document.location.search);
+  const id = url.get('id');
+  let response = await fetch('../../data/photographers.json');
+  let data = await response.json();
+  
+  const photoSection = document.getElementById('photo');
+  const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
+  const filterPhotos = data.media.filter(media => media.photographerId == photographer.id);
+  
+  const photographerInfoMain = new PhotographerPage(photographer);
+  photographerInfoMain.infoPhotographer();
+  
+  if(value === 'popularity') {
+    photosTag = filterPhotos.sort((a,b) => b.likes - a.likes); 
+  } else if(value === 'titre') {
+    photosTag = filterPhotos.sort((a,b) => b.title > a.title);
+  } else {
+    photosTag = filterPhotos.sort((a,b) => b.date < a.date);   
+  } 
+  
+ photosTag.forEach(media => { 
+    const photographerMedia = new PhotographerMediaPhoto(media);
+    const cardPhotoDom =  photographerMedia.mediaPhotographer();
+    photoSection.innerHTML += cardPhotoDom;
+  });
+  
+  console.log(photosTag);
+  
+}                        
 function openModalPhoto() {
   document.getElementById("photoModal").style.display = "block";  
    document.getElementById("photoModal").innerHTML =
@@ -136,42 +164,3 @@ function closeModalPhoto() {
 document.addEventListener('keydown', e =>{
   console.log(e);
 })
-
-
-const filterTag = document.getElementById("order_by");
-filterTag.addEventListener('change', function(){
-  const value = filterTag.value;
-  filterPhoto(value);
-});
-
-async function filterPhoto(value) {
-  const url =  new URLSearchParams(document.location.search);
-  const id = url.get('id');
-  let response = await fetch('../../data/photographers.json');
-  let data = await response.json();
-
-  const photoSection = document.getElementById('photo');
-  const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
-  const filterPhotos = data.media.filter(media => media.photographerId == photographer.id);
-   
-  let photos;
-    if(value === 'popularity') {
-      photos = filterPhotos.sort((a,b) => b.likes - a.likes);
-      photoSection.innerHTML += photos;
-      console.log(photos);
-    } else if(value === 'titre') {
-      photos = filterPhotos.sort((a,b) => b.title - a.title);
-    } else {
-      photos = filterPhotos.sort((a,b) => b.date - a.date);   
-    }
-
-    photoSection.innerHTML = '<div></div>';
-     const photographerInfoMain = new PhotographerPage(photographer);
-     photographerInfoMain.infoPhotographer();
-
-    photos.forEach(media => { 
-      const photographerMedia = new PhotographerMediaPhoto(media);
-      const cardPhotoDom =  photographerMedia.mediaPhotographer();
-      photoSection.innerHTML += cardPhotoDom; 
-    });
-}     
