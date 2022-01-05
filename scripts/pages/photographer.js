@@ -1,8 +1,9 @@
 //Mettre le code JavaScript lié à la page photographer.html
  
 
-async function displayPhotographeMedia() {  
-  await filterPhoto( );
+async function displayPhotographeMedia(value) {
+
+    filterPhoto("popularity");
 
 } 
  
@@ -38,10 +39,9 @@ class PhotographerPage {
           infoSection.innerHTML += info;
          const likePrice = document.getElementById('like_price');
          const totalLikesPrice = `
-         <span class="total_likes" id="total_likes">
-         
-         <i class="fas fa-heart"></i
-         ></span>
+         <span class="total_likes">
+         <span id="total_likes"></span>
+         <i class="fas fa-heart"></i></span>
          <span class="price" id="price">${this.price}€ /jour</span>
          `
          likePrice.innerHTML = totalLikesPrice;
@@ -50,8 +50,12 @@ class PhotographerPage {
 }
 
 
-
-
+    //Fonction incrementation des likes
+    const likeClick = document.querySelectorAll('#like');
+    console.log(likeClick);
+/*     likeClick.addEventListener("click", function() {
+      this.likes ++;
+    }); */
 class PhotographerMediaPhoto {
     constructor(media) {
         this.id_media = media.id
@@ -64,23 +68,15 @@ class PhotographerMediaPhoto {
         this.price_media = media.price
     }
 
-   
-    
-    
 
     mediaPhotographer() {
-      let thisLikes = this.likes;
-      console.log(thisLikes);
-      var test = photosTag.map(a => a.likes).reduce((prev, curr) => prev + curr, 0);
-      console.log(test);
-  /*     insertLikes = document.getElementById('total_likes');
-      console.log(); */
-/* 
-      totalLikes = `<span class="total_likes" id="total_likes">
-      ${test}
-      <i class="fas fa-heart"></i
-      ></span>`
-         likePrice.innerHTML += totalLikesPrice; */
+      // Récuperé le total des likes par photographe
+      var allLikes = photosTag.map(a => a.likes).reduce((prev, curr) => prev + curr, 0);
+      let likeId = document.getElementById('total_likes');
+      likeId.textContent = allLikes;
+      
+
+      //Afficher Card adapter pour photo ou video en vérifiant si video == undefined
          let card;
         if(this.video == undefined) {
          card =  
@@ -99,13 +95,33 @@ class PhotographerMediaPhoto {
             </div>
             `
         }
+   
+        //Afficher le modal des photo quand on clique dessus en récuperant les donnée dans les media
+        document.getElementById("photoModal").innerHTML = 
+        ` 
+        <div class="modal-content">
+        <span class="close" onclick="closeModalPhoto()"
+          ><i class="fas fa-times"></i
+        ></span>
+        <span class="left"><i class="fas fa-angle-left"></i></span>
+        <span class="right"><i class="fas fa-angle-right"></i></span>
+        <div class="photo_content">
+          <img
+            src="../../assets/Sample Photos/${this.image_media}"
+            alt=""
+            class="photoContent"
+          />
+          <span class="modal_title" id="modalTitle">${this.title}</span>
+        </div>
+      </div>
+        `;
     return card;
 }
 
 }
 
 
-
+//Parcourir les different select de l'option et récuperé la value
 const filterTag = document.getElementById("order_by");
 filterTag.addEventListener('change', function(){
   const value = filterTag.value;
@@ -118,62 +134,47 @@ async function filterPhoto(value) {
   let response = await fetch('../../data/photographers.json');
   let data = await response.json();
   
+  //Filtrer les photos par rapport a Id des photographe 
   const photoSection = document.getElementById('photo');
   const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
   const filterPhotos = data.media.filter(media => media.photographerId == photographer.id);
   
+  //Initialisation des données photographer du fichier Json 
   const photographerInfoMain = new PhotographerPage(photographer);
   photographerInfoMain.infoPhotographer();
   
-  if(value === 'popularity') {
-    photosTag = filterPhotos.sort((a,b) => b.likes - a.likes); 
-  } else if(value === 'titre') {
-    photosTag = filterPhotos.sort((a,b) => b.title > a.title);
-  } else {
-    photosTag = filterPhotos.sort((a,b) => b.date < a.date);   
-  } 
+  //Filtrer les photo par rapport aux value 
+    if(value === 'popularity') {
+      photosTag = filterPhotos.sort((a,b) => a.likes - b.likes);
+    } else if(value === 'titre') {
+      photosTag = filterPhotos.sort((a,b) => a.title - b.title);
+    } else {
+      photosTag = filterPhotos.sort(); 
+    } 
   
- photosTag.forEach(media => { 
+  
+  //Initialisation des donnée media du fichier Json
+  photosTag.forEach(media => { 
     const photographerMedia = new PhotographerMediaPhoto(media);
     const cardPhotoDom =  photographerMedia.mediaPhotographer();
     photoSection.innerHTML += cardPhotoDom;
   });
-  
-  console.log(photosTag);
+  /* console.log(photosTag); */
   
 }          
 
-class Modal extends PhotographerMediaPhoto {
 
- openModalPhoto() {
+//Ouvrir le Modal
+ function openModalPhoto() {
   document.getElementById("photoModal").style.display = "block";  
-   document.getElementById("photoModal").innerHTML =
-   ` 
-   <div class="modal-content">
-   <span class="close" onclick="closeModalPhoto()"
-     ><i class="fas fa-times"></i
-   ></span>
-   <span class="left"><i class="fas fa-angle-left"></i></span>
-   <span class="right"><i class="fas fa-angle-right"></i></span>
-   <div class="photo_content">
-     <img
-       src="../../assets/Sample Photos/${this.image_media}"
-       alt=""
-       class="photoContent"
-     />
-     <span class="modal_title" id="modalTitle">${this.title}</span>
-   </div>
- </div>
-   `;
  }
 
-
-
- closeModalPhoto() {
+ //Ferme le Modal
+ function  closeModalPhoto() {
     document.getElementById("photoModal").style.display = "none";
  }
-}
 
-document.addEventListener('keydown', e =>{
+
+/* document.addEventListener('keydown', e =>{
   console.log(e);
-})
+}) */
