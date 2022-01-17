@@ -63,7 +63,7 @@ async function photographerData(value) {
   const photographerPrice = photographerId.price;
   photographersMedias.forEach(media => {totalLikes += media.likes});  
   photographersMedias.forEach(media => {LikePhoto = media.likes});  
-  console.log(LikePhoto);
+  //console.log(LikePhoto);
   //console.log(photographerPrice);
   //console.log(photographerId);
 
@@ -89,6 +89,12 @@ async function photographerData(value) {
       const photographerMedia = new PhotographerMediaPhoto(media);
       const cardPhotoDom =  photographerMedia.mediaPhotographer();
       photoSection.innerHTML += cardPhotoDom;
+      const lightBoxTitle = photographerMedia.title;
+      const lightBoxImage = photographerMedia.image_media;
+      const lightBoxVideo = photographerMedia.video;
+      console.log(lightBoxTitle);
+      console.log(lightBoxImage);
+      console.log(lightBoxVideo);
     });
     //console.log(photosTag );
      return {}
