@@ -2,64 +2,16 @@
 const filterTag = document.getElementById("order_by");
 filterTag.addEventListener('change', function(){
   const value = filterTag.value;
-  filterPhoto(value);
+  photographerData(value);
 });
 
 
-//Mettre le code JavaScript lié à la page photographer.html
-async function filterPhoto(value) {
-  const url =  new URLSearchParams(document.location.search);
-  const id = url.get('id');
-  let response = await fetch('../../data/photographers.json');
-  let data = await response.json();
-  
-  //Filtrer les photos par rapport a Id des photographe 
-  let totalLikes = 0;
-  const photoSection = document.getElementById('photo');
-  const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
-  const photographersMedias = data.media.filter(media => media.photographerId == photographer.id);
-  photographersMedias.forEach(media => {totalLikes += media.likes});  
-  /* console.log(totalLikes); */
-
-
-  //Initialisation des données photographer du fichier Json 
-  const photographerInfoMain = new PhotographerPage(photographer);
-  photographerInfoMain.infoPhotographer();
-
-  
-    //Element du Modal
-  const carrousel = new PhotgrapherCarrousel(photographersMedias);
-  carrousel.displayCarrouselPhoto();
-
-  //Filtrer les photo par rapport aux value 
-  let photosTag;
-    if(value === 'popularity') {
-      photosTag = photographersMedias.sort((a,b) => b.likes - a.likes);             
-    } else if(value === 'titre') {
-      photosTag = photographersMedias.sort();
-    } else {
-      photosTag = photographersMedias.sort((a,b) => b.date - a.date); 
-    } 
-
-    // Récuperé le total des likes par photographe
-    const likeTag = document.getElementById("total_likes");
-    likeTag.textContent = totalLikes;
-    
-  
-    photosTag.forEach(media => { 
-      const photographerMedia = new PhotographerMediaPhoto(media);
-      const cardPhotoDom =  photographerMedia.mediaPhotographer();
-      photoSection.innerHTML += cardPhotoDom;
-    });
-    //console.log(photosTag );
-    
-
-
-    const likeClick = document.querySelectorAll('.fa-heart');
-    console.log(likeClick);
+/* const likeClick = document.querySelectorAll('.fa-heart');
+likeClick.addEventListener('click', function(){ 
+   alert("hello");
+    /*    console.log(likeClick);
     for(let i = 0; i = likeClick.length; i++) {
-      likeClick.addEventListener("click",likeIncremente(), false);
-    }
+    } */
       /*   
   let reviews = document.getElementsByClassName("modal-content");
   if(review>=reviews.length){ 
@@ -73,20 +25,82 @@ async function filterPhoto(value) {
   for (let i = 0; i < reviews.length; i++) {
     reviews[i].style.display = "none";
   }
-  reviews[review].style.display="block"; */
+  reviews[review].style.display="block"; 
 
+}); */
+
+async function photographerBanner() {
+  const url =  new URLSearchParams(document.location.search);
+  const id = url.get('id');
+  let response = await fetch('../../data/photographers.json');
+  let data = await response.json();
+
+  const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
+
+  //Initialisation des données photographer du fichier Json 
+  const photographerInfoMain = new PhotographerPage(photographer);
+  photographerInfoMain.infoPhotographer();
+
+}
+
+photographerBanner();
+
+//Mettre le code JavaScript lié à la page photographer.html
+async function photographerData(value) {
+  const url =  new URLSearchParams(document.location.search);
+  const id = url.get('id');
+  let response = await fetch('../../data/photographers.json');
+  let data = await response.json();
+  
+  //Filtrer les photos par rapport a l'Id des photographes
+  let totalLikes = 0;
+  const photoSection = document.getElementById('photo');
+  const lightBoxTitle = document.getElementById('modalTitle');
+  //console.log(lightBoxTitle);
+
+  const photographerId = data.photographers.filter(photographer => photographer.id == id)[0]; 
+  const photographersMedias = data.media.filter(media => media.photographerId == photographerId .id);
+  const photographerPrice = photographerId.price;
+  photographersMedias.forEach(media => {totalLikes += media.likes});  
+  photographersMedias.forEach(media => {LikePhoto = media.likes});  
+  console.log(LikePhoto);
+  //console.log(photographerPrice);
+  //console.log(photographerId);
+
+  //Filtrer les photo par rapport aux value 
+  let photosTag;
+    if(value === 'popularity') {
+      photosTag = photographersMedias.sort((a,b) => b.likes - a.likes);             
+    } else if(value === 'titre') {
+      photosTag = photographersMedias.filter(media => media.title);
+      alert("hello");
+      console.log(photosTag);
+    } else {
+      photosTag = photographersMedias.sort((a,b) => b.date - a.date); 
+    } 
+
+    //Afficher le total des likes par photographe et le prix
+    const likeTag = document.getElementById("total_likes");
+    likeTag.textContent = totalLikes;
+    const priceTag = document.getElementById('price');
+    priceTag.innerHTML = photographerPrice;
+  
+    photosTag.forEach(media => { 
+      const photographerMedia = new PhotographerMediaPhoto(media);
+      const cardPhotoDom =  photographerMedia.mediaPhotographer();
+      photoSection.innerHTML += cardPhotoDom;
+    });
+    //console.log(photosTag );
      return {}
 }   
  
 async function displayPhotographeMedia(value) {
-     filterPhoto(value);
+  photographerData(value);
 } 
  
 displayPhotographeMedia();
 
-function likeIncremente() {
-alert("hello");
-}
+
  class PhotographerPage {
 
     constructor(photographer) {
@@ -102,7 +116,7 @@ alert("hello");
       infoPhotographer() {
           const infoSection = document.getElementById('info');
           const iconePhotoMain = document.getElementById('icone_photo');
-          const likePrice = document.getElementById('like_price');
+
           const info = `
           <h1 id="name">${this.name}</h1>
           <p id="city_country">${this.city}, ${this.country}</p>
@@ -111,21 +125,14 @@ alert("hello");
           const photoMain = `
           <img id="image" src="assets/photographers/${this.portrait}" alt="" />
           `
-          const totalLikesPrice = `
-          <span class="total_likes">
-          <span id="total_likes"></span>
-          <i class="fas fa-heart"></i></span>
-          <span class="price" id="price">${this.price}€ /jour</span>
-          `
+
           iconePhotoMain.innerHTML += photoMain;
           infoSection.innerHTML += info;
-          likePrice.innerHTML = totalLikesPrice;
-          return (info, photoMain, totalLikesPrice  );
+         
+          return {info, photoMain};
     }
 }
 
-
-    //Fonction incrementation des likes
 
 
 class PhotographerMediaPhoto {
@@ -142,8 +149,7 @@ class PhotographerMediaPhoto {
     mediaPhotographer() {
       //Afficher Card adapter pour photo ou video en vérifiant si video == undefined
          let card;
-         let card2;
-        if(this.video == undefined) {
+            if(this.video == undefined) {
          card =  
             `
            <div class="photo_card">
@@ -166,43 +172,51 @@ class PhotographerMediaPhoto {
 
 }
 
-class PhotgrapherCarrousel {
-  constructor(media) {
-    this.image = media.image
-    this.title = media.title
-  }
-    //Afficher le m odal des photo quand on clique dessus en récuperant les donnée dans les media
-   displayCarrouselPhoto() {
-    const cardCaraoussel = document.getElementById("photoModal").innerHTML = 
-    ` 
-    <div class="modal-content">
-    <span class="close" onclick="closeModalPhoto()"
-      ><i class="fas fa-times"></i
-    ></span>
-    <span class="left"><i class="fas fa-angle-left" onclick="previousReview()"></i></span>
-    <span class="right"><i class="fas fa-angle-right" onclick="nextReview()"></i></span>
-    <div class="photo_content">
-      <img
-          "../../assets/Sample Photos/${this.image_media}"
-          alt=""
-          class="photoContent"
-      />
-      <span class="modal_title" id="modalTitle">${this.title}</span>
-    </div>
-  </div>
-    `; 
-    return cardCaraoussel;  
-   } 
+
+
+function likeAndPrice() {
+  const likePrice = document.getElementById('like_price');
+  const totalLikesPrice = `
+  <span class="total_likes">
+  <span id="total_likes"></span>
+  <i class="fas fa-heart"></i></span>
+  <span class="price"><span id="price"></span>€ /jour</span>
+  `
+  likePrice.innerHTML = totalLikesPrice;
+  return {totalLikesPrice};
 }
 
-class photographerFactory {
-  constructor(photographer,)
-}
+likeAndPrice();
+
+//Afficher le m odal des photo quand on clique dessus en récuperant les donnée dans les media
+  function displayCarrouselPhoto() {
+
+    return cardCaraoussel;  
+   } 
+
+
 
 //Ouvrir le Modal
  function openModalPhoto() {
   document.getElementById("photoModal").style.display = "block";
-
+  document.getElementById("photoModal").innerHTML = 
+  ` 
+  <div class="modal-content">
+  <span class="close" onclick="closeModalPhoto()"
+    ><i class="fas fa-times"></i
+  ></span>
+  <span class="left"><i class="fas fa-angle-left" onclick="previousReview()"></i></span>
+  <span class="right"><i class="fas fa-angle-right" onclick="nextReview()"></i></span>
+  <div class="photo_content">
+    <img
+        "../../assets/Sample Photos/${this.image_media}"
+        alt=""
+        class="photoContent"
+    />
+    <span class="modal_title" id="modalTitle"></span>
+  </div>
+</div>
+  `; 
  }
 
  //Ferme le Modal

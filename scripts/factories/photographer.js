@@ -10,25 +10,6 @@ class photographerFactory{
     this.portrait = photographer.portrait
   }
   
-/*   get name() {
-    return this.name
-  }
-  get city() {
-    return this.city
-  }
-  get country() {
-    return this_country
-  }
-  get tageline() {
-    return this.tageline
-  }
-  get price() {
-    return this.price
-  }
-  get portrait() {
-    return this.portrait
-  } */
-
   getUserCardDOM() {
     const picture = `assets/photographers/${this.portrait}`;
 
