@@ -6,28 +6,6 @@ filterTag.addEventListener('change', function(){
 });
 
 
-/* const likeClick = document.querySelectorAll('.fa-heart');
-likeClick.addEventListener('click', function(){ 
-   alert("hello");
-    /*    console.log(likeClick);
-    for(let i = 0; i = likeClick.length; i++) {
-    } */
-      /*   
-  let reviews = document.getElementsByClassName("modal-content");
-  if(review>=reviews.length){ 
-      review=0;
-      rev=0;
-  }
-  if(review<0){
-      review=reviews.length-1;
-      rev=reviews.length-1;
-  }
-  for (let i = 0; i < reviews.length; i++) {
-    reviews[i].style.display = "none";
-  }
-  reviews[review].style.display="block"; 
-
-}); */
 
 async function photographerBanner() {
   const url =  new URLSearchParams(document.location.search);
@@ -63,7 +41,7 @@ async function photographerData(value) {
   const photographerPrice = photographerId.price;
   photographersMedias.forEach(media => {totalLikes += media.likes});  
   photographersMedias.forEach(media => {LikePhoto = media.likes});  
-  //console.log(LikePhoto);
+  //console.log(totalLikes);
   //console.log(photographerPrice);
   //console.log(photographerId);
 
@@ -80,21 +58,24 @@ async function photographerData(value) {
     } 
 
     //Afficher le total des likes par photographe et le prix
-    const likeTag = document.getElementById("total_likes");
-    likeTag.textContent = totalLikes;
-    const priceTag = document.getElementById('price');
-    priceTag.innerHTML = photographerPrice;
+    const likePrice = document.getElementById('like_price');
+    const likeAndPrice = new LikeAndPrice(photographerId).createBanner();
+    likePrice.innerHTML = likeAndPrice;
+    const templateLike = document.getElementById("total_likes");
+    templateLike.innerHTML = totalLikes;
+
+
   
     photosTag.forEach(media => { 
       const photographerMedia = new PhotographerMediaPhoto(media);
       const cardPhotoDom =  photographerMedia.mediaPhotographer();
       photoSection.innerHTML += cardPhotoDom;
-      const lightBoxTitle = photographerMedia.title;
+/*       const lightBoxTitle = photographerMedia.title;
       const lightBoxImage = photographerMedia.image_media;
       const lightBoxVideo = photographerMedia.video;
       console.log(lightBoxTitle);
-      console.log(lightBoxImage);
-      console.log(lightBoxVideo);
+      console.log(lightBoxImage);     
+      console.log(lightBoxVideo); */
     });
     //console.log(photosTag );
      return {}
@@ -118,23 +99,20 @@ displayPhotographeMedia();
         this.price = photographer.price
         this.portrait = photographer.portrait 
       }
-
       infoPhotographer() {
+          const picture = `assets/photographers/${this.portrait}`;
           const infoSection = document.getElementById('info');
           const iconePhotoMain = document.getElementById('icone_photo');
-
           const info = `
           <h1 id="name">${this.name}</h1>
           <p id="city_country">${this.city}, ${this.country}</p>
           <p id="tageline">${this.tagline}</p>
           `
           const photoMain = `
-          <img id="image" src="assets/photographers/${this.portrait}" alt="" />
+          <img id="image" src=${picture} alt="" />
           `
-
-          iconePhotoMain.innerHTML += photoMain;
-          infoSection.innerHTML += info;
-         
+          iconePhotoMain.innerHTML = photoMain;
+          infoSection.innerHTML = info;        
           return {info, photoMain};
     }
 }
@@ -143,62 +121,81 @@ displayPhotographeMedia();
 
 class PhotographerMediaPhoto {
     constructor(media) {
-        this.id_media = media.id
-        this.photograppherId = media.photographerid
-        this.video = media.video
-        this.title = media.title
-        this.image_media = media.image
-        this.likes = media.likes
-        this.date = media.date
-        this.price_media = media.price
+        this.media = media
     }
     mediaPhotographer() {
-      //Afficher Card adapter pour photo ou video en vérifiant si video == undefined
-         let card;
-            if(this.video == undefined) {
-         card =  
+         let cardImage;
+         cardImage =  
             `
            <div class="photo_card">
-           <img id="cardId" src="../../assets/Sample Photos/${this.image_media}" alt="" onclick="openModalPhoto()"/>
-          <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
+           <img id="cardId" src="../../assets/Sample Photos/${this.media.image}" alt="" onclick="openModalPhoto()"/>
+          <div id="legende">${this.media.title}<span id="like">${this.media.likes}<i class="fas fa-heart"></i></span></div>
           </div>
             `  
-        }else {
-        card =  
+    return cardImage;
+}
+
+}
+
+class PhotographerMediaVideo {
+    constructor(media) {
+        this.media = media
+    }
+    mediaPhotographer() {
+         let cardVideo;
+         cardVideo =  
             `
             <div class="photo_card">
-            <video id="cardId" src="../../assets/Sample Photos/${this.video}" type="video/mp4" controls ></video>
-            <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
+            <video id="cardId" src="../../assets/Sample Photos/${this.media.video}" type="video/mp4" controls ></video>
+            <div id="legende">${this.media.title}<span id="like">${this.media.likes}<i class="fas fa-heart"></i></span></div>
             </div>
             `
-        }  
-   
-    return card;
-}
+    return cardVideo;
+} 
 
 }
 
 
 
-function likeAndPrice() {
-  const likePrice = document.getElementById('like_price');
-  const totalLikesPrice = `
-  <span class="total_likes">
-  <span id="total_likes"></span>
-  <i class="fas fa-heart"></i></span>
-  <span class="price"><span id="price"></span>€ /jour</span>
-  `
-  likePrice.innerHTML = totalLikesPrice;
-  return {totalLikesPrice};
+class LikeAndPrice {
+  constructor(photographerId) {
+      this.price = photographerId.price   
+      this.likes = photographerId.likes
+  }
+
+  createBanner() {
+    const totalLikesPrice = `
+    <span class="total_likes">
+    <span id="total_likes"></span>
+    <i class="fas fa-heart"></i></span>
+    <span class="price"><span id="price"></span>${this.price}€ /jour</span>
+    `
+    return totalLikesPrice;
+  }
 }
 
-likeAndPrice();
+
 
 //Afficher le m odal des photo quand on clique dessus en récuperant les donnée dans les media
-  function displayCarrouselPhoto() {
+  /*function displayCarrouselPhoto() {
+         
+  let reviews = document.getElementsByClassName("modal-content");
+  if(review>=reviews.length){ 
+      review=0;
+      rev=0;
+  }
+  if(review<0){
+      review=reviews.length-1;
+      rev=reviews.length-1;          
+  }
+  for (let i = 0; i < reviews.length; i++) {
+    reviews[i].style.display = "none";
+  }
+  reviews[review].style.display="block"; 
 
+}); 
     return cardCaraoussel;  
-   } 
+   } */
 
 
 
@@ -235,4 +232,3 @@ likeAndPrice();
   console.log(e);
 }) */
 
- 
