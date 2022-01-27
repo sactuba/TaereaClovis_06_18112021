@@ -16,7 +16,7 @@ async function photographerBanner() {
   const photographer = data.photographers.filter(photographer => photographer.id == id)[0];
 
   //Initialisation des données photographer du fichier Json 
-  const photographerInfoMain = new PhotographerPage(photographer);
+  const photographerInfoMain = new PhotographerBanner (photographer);
   photographerInfoMain.infoPhotographer();
 
 }
@@ -33,28 +33,26 @@ async function photographerData(value) {
   //Filtrer les photos par rapport a l'Id des photographes
   let totalLikes = 0;
   const photoSection = document.getElementById('photo');
-  const lightBoxTitle = document.getElementById('modalTitle');
+  //const lightBoxTitle = document.getElementById('modalTitle');
   //console.log(lightBoxTitle);
 
   const photographerId = data.photographers.filter(photographer => photographer.id == id)[0]; 
   const photographersMedias = data.media.filter(media => media.photographerId == photographerId .id);
-  const photographerPrice = photographerId.price;
   photographersMedias.forEach(media => {totalLikes += media.likes});  
   photographersMedias.forEach(media => {LikePhoto = media.likes});  
-  //console.log(totalLikes);
+  console.log(photographersMedias);
   //console.log(photographerPrice);
   //console.log(photographerId);
 
   //Filtrer les photo par rapport aux value 
-  let photosTag;
+
     if(value === 'popularity') {
-      photosTag = photographersMedias.sort((a,b) => b.likes - a.likes);             
+      photographersMedias.sort((a,b) => b.likes - a.likes);             
     } else if(value === 'titre') {
-      photosTag = photographersMedias.filter(media => media.title);
+      photographersMedias.filter(media => media.title);
       alert("hello");
-      console.log(photosTag);
     } else {
-      photosTag = photographersMedias.sort((a,b) => b.date - a.date); 
+     photographersMedias.sort((a,b) => b.date - a.date); 
     } 
 
     //Afficher le total des likes par photographe et le prix
@@ -66,18 +64,15 @@ async function photographerData(value) {
 
 
   
-    photosTag.forEach(media => { 
-      const photographerMedia = new PhotographerMediaPhoto(media);
-      const cardPhotoDom =  photographerMedia.mediaPhotographer();
-      photoSection.innerHTML += cardPhotoDom;
-/*       const lightBoxTitle = photographerMedia.title;
-      const lightBoxImage = photographerMedia.image_media;
-      const lightBoxVideo = photographerMedia.video;
-      console.log(lightBoxTitle);
-      console.log(lightBoxImage);     
-      console.log(lightBoxVideo); */
+    photographersMedias.forEach(medias => { 
+      const photographerMedia = new FactoryPattern(medias);
+      const photographerMediaVideo = photographerMedia.mediaPhotographerVideo();
+      //const photographerMediaPhotos = photographerMedia.mediaPhotographerPhoto();
+      /* const cardPhotoDom =  photographerMedia.mediaPhotographer(); */  
+      photoSection.innerHTML += photographerMediaVideo;
+      //photoSection.innerHTML += photographerMediaPhotos;
+      //console.log(photographerMediaPhotos);
     });
-    //console.log(photosTag );
      return {}
 }   
  
@@ -88,7 +83,7 @@ async function displayPhotographeMedia(value) {
 displayPhotographeMedia();
 
 
- class PhotographerPage {
+ class PhotographerBanner {
 
     constructor(photographer) {
         this.name = photographer.name
@@ -118,18 +113,36 @@ displayPhotographeMedia();
 }
 
 
+class FactoryPattern {
+  constructor(photographersMedias){
+  if(photographersMedias.image === undefined) {
+    const videoCard = new PhotographerMediaVideo(photographersMedias);
+    /* videoCard.mediaPhotographeVideo(); */
+     return videoCard;
+  } else if(photographersMedias.video === undefined) {
+    const photoCard = new PhotographerMediaPhoto(photographersMedias);
+    /* photoCard.mediaPhotographerPhoto(); */
+    //console.log(typeof(photoCard)); 
+    return photoCard;
+  } else {
+    throw 'Unknow format type';
+  }
+  }
 
+}
 class PhotographerMediaPhoto {
-    constructor(media) {
-        this.media = media
+    constructor(photographersMedias) {
+        this.image = photographersMedias.image
+        this.likes = photographersMedias.likes
+        this.title = photographersMedias.title
     }
-    mediaPhotographer() {
+    mediaPhotographerPhoto() {
          let cardImage;
          cardImage =  
             `
            <div class="photo_card">
-           <img id="cardId" src="../../assets/Sample Photos/${this.media.image}" alt="" onclick="openModalPhoto()"/>
-          <div id="legende">${this.media.title}<span id="like">${this.media.likes}<i class="fas fa-heart"></i></span></div>
+           <img id="cardId" src="../../assets/Sample Photos/${this.image}" alt="" onclick="openModalPhoto()"/>
+          <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
           </div>
             `  
     return cardImage;
@@ -138,16 +151,18 @@ class PhotographerMediaPhoto {
 }
 
 class PhotographerMediaVideo {
-    constructor(media) {
-        this.media = media
+    constructor(photographersMedias) {
+      this.video = photographersMedias.video
+      this.likes = photographersMedias.likes
+      this.title = photographersMedias.title
     }
-    mediaPhotographer() {
+    mediaPhotographerVideo() {
          let cardVideo;
          cardVideo =  
             `
             <div class="photo_card">
-            <video id="cardId" src="../../assets/Sample Photos/${this.media.video}" type="video/mp4" controls ></video>
-            <div id="legende">${this.media.title}<span id="like">${this.media.likes}<i class="fas fa-heart"></i></span></div>
+            <video id="cardId" src="../../assets/Sample Photos/${this.video}" type="video/mp4" controls ></video>
+            <div id="legende">${this.title}<span id="like">${this.likes}<i class="fas fa-heart"></i></span></div>
             </div>
             `
     return cardVideo;
