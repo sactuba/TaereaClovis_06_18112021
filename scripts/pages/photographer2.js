@@ -1,9 +1,3 @@
- const likeClick = document.querySelectorAll('.fa-heart');
-likeClick.addEventListener('click', function(){ 
-   alert("hello");
-        console.log(likeClick);
-    for(let i = 0; i = likeClick.length; i++) {
-    }
 
     class Api {
       constructor(url) {
@@ -11,15 +5,14 @@ likeClick.addEventListener('click', function(){
       }
   
       async get(){
-             const URL = new URLSearchParams(document.location.search);
-             const id = URL.get('id');
+             //const URL = new URLSearchParams(document.location.search);
+             //const id = URL.get('id');
              //const photographerId = data.photographers.filter(photographer => photographer.id == id)[0]; 
              //const photographersMedias = data.media.filter(media => media.photographerId == photographerId .id);
-
              return fetch(this.url)
              .then(res => res.json())
              .then(res => res.data)
-             .catch(err => console.log("an error occurs", err));
+             .catch(err => console.log("an error occurs", err));      
       }
   }
 
@@ -42,23 +35,24 @@ likeClick.addEventListener('click', function(){
 
     async main() {
       const elsData = await this.AppApi.getData();
-      elsData
-      .foreach((media) => {
+      elsData.foreach((media) => {
         const template = new PhotographerMediaPhoto(media);
         this.$elsWrapper.appendChild(template.mediaPhotographer());
+        console.log(template);
       })
+      console.log(elsData);
     }
   }
 
   const app = new App();
   app.main();  
-  console.log(app); 
+  //console.log(app); 
 
   class FactoryPattern {
     constructor(media, type){
-    if(type == video) {
+    if(image === undefined) {
       return new PhotographerMediaVideo(media);
-    } else if(type == image) {
+    } else if(video === undefined) {
       return new PhotographerMediaPhoto(media);
     } else {
       throw 'Unknow format type';
