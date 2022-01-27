@@ -5,10 +5,6 @@
       }
   
       async get(){
-             //const URL = new URLSearchParams(document.location.search);
-             //const id = URL.get('id');
-             //const photographerId = data.photographers.filter(photographer => photographer.id == id)[0]; 
-             //const photographersMedias = data.media.filter(media => media.photographerId == photographerId .id);
              return fetch(this.url)
              .then(res => res.json())
              .then(res => res.data)
@@ -18,7 +14,7 @@
 
 
        class AppApi extends Api {
-       constructor(url) {    
+       constructor(url) {     
          super(url);
        } 
  
@@ -40,7 +36,6 @@
         this.$elsWrapper.appendChild(template.mediaPhotographer());
         console.log(template);
       })
-      console.log(elsData);
     }
   }
 
@@ -49,7 +44,7 @@
   //console.log(app); 
 
   class FactoryPattern {
-    constructor(media, type){
+    constructor(media){
     if(image === undefined) {
       return new PhotographerMediaVideo(media);
     } else if(video === undefined) {
@@ -70,8 +65,8 @@
             `
            <div class="photo_card">
            <img id="cardId" src="../../assets/Sample Photos/${this.media.image}" alt="" onclick="openModalPhoto()"/>
-          <div id="legende">${this.media.title}<span id="like">${this.media.likes}<i class="fas fa-heart"></i></span></div>
-          </div>
+           <div id="legende">${this.media.title}<span id="like">${this.media.likes}<i class="fas fa-heart"></i></span></div>
+           </div>
             `  
     return cardImage;
 }
