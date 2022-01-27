@@ -64,16 +64,17 @@ async function photographerData(value) {
 
 
   
-    photographersMedias.forEach(medias => { 
-      const photographerMedia = new FactoryPattern(medias);
-      const photographerMediaVideo = photographerMedia.mediaPhotographerVideo();
+    photographersMedias.forEach(media => { 
+      const photographerMedia = new FactoryPattern(media);
+      //const photographerMediaVideo = photographerMedia.mediaPhotographerVideo();
       //const photographerMediaPhotos = photographerMedia.mediaPhotographerPhoto();
       /* const cardPhotoDom =  photographerMedia.mediaPhotographer(); */  
-      photoSection.innerHTML += photographerMediaVideo;
+      photoSection.innerHTML += photographerMedia;
       //photoSection.innerHTML += photographerMediaPhotos;
-      //console.log(photographerMediaPhotos);
+      //console.log(media);
+      console.log(photographerMedia);
     });
-     return {}
+     
 }   
  
 async function displayPhotographeMedia(value) {
@@ -81,6 +82,7 @@ async function displayPhotographeMedia(value) {
 } 
  
 displayPhotographeMedia();
+
 
 
  class PhotographerBanner {
@@ -117,13 +119,14 @@ class FactoryPattern {
   constructor(photographersMedias){
   if(photographersMedias.image === undefined) {
     const videoCard = new PhotographerMediaVideo(photographersMedias);
-    /* videoCard.mediaPhotographeVideo(); */
-     return videoCard;
+    const displayVideo = videoCard.mediaPhotographerVideo();
+    console.log(displayVideo);
+     return displayVideo;
   } else if(photographersMedias.video === undefined) {
     const photoCard = new PhotographerMediaPhoto(photographersMedias);
-    /* photoCard.mediaPhotographerPhoto(); */
-    //console.log(typeof(photoCard)); 
-    return photoCard;
+    const displayPhoto = photoCard.mediaPhotographerPhoto(); 
+    console.log(displayPhoto);
+    return displayPhoto;
   } else {
     throw 'Unknow format type';
   }
@@ -192,25 +195,7 @@ class LikeAndPrice {
 
 
 //Afficher le m odal des photo quand on clique dessus en récuperant les donnée dans les media
-  /*function displayCarrouselPhoto() {
-         
-  let reviews = document.getElementsByClassName("modal-content");
-  if(review>=reviews.length){ 
-      review=0;
-      rev=0;
-  }
-  if(review<0){
-      review=reviews.length-1;
-      rev=reviews.length-1;          
-  }
-  for (let i = 0; i < reviews.length; i++) {
-    reviews[i].style.display = "none";
-  }
-  reviews[review].style.display="block"; 
 
-}); 
-    return cardCaraoussel;  
-   } */
 
 
 
@@ -242,8 +227,4 @@ class LikeAndPrice {
     document.getElementById("photoModal").style.display = "none";
  }
 
-
-/* document.addEventListener('keydown', e =>{
-  console.log(e);
-}) */
 
